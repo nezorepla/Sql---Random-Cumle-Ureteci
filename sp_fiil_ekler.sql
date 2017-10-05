@@ -58,3 +58,4 @@ set @kip_eki = replace(replace(@kip_eki,'DuzGenisSesliHarf',@DuzGenisSesliHarf),
  print @sahis+'<fiil:'+@fiil +' - kip:'+@kip_eki +'("'+@kip  +'") !'
 
  --sp_fiil_ekler
+ 
