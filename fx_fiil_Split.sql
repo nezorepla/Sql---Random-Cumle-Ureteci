@@ -1,49 +1,45 @@
  
-
-/****** Object:  UserDefinedFunction [dbo].[fx_fiil_Split]    Script Date: 10/05/2017 15:21:57 ******/
+/****** Object:  UserDefinedFunction [dbo].[fx_fiil_Split]    Script Date: 10/06/2017 17:41:33 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE FUNCTION [dbo].[fx_fiil_Split](@str      VARCHAR(5000),
-                                         @POSITION INT,@delimiter varchar(1)=null)
-returns VARCHAR(20)
+CREATE FUNCTION [dbo].[fx_fiil_Split] (  @stringToSplit VARCHAR(MAX) ,  @POSITION INT )
+ returns VARCHAR(20)
 AS
-  BEGIN
+BEGIN
+      DECLARE @RESULT   VARCHAR(20)='';
+ DECLARE @name NVARCHAR(255);
+ DECLARE @pos INT;
+  DECLARE @posx INT=0;
+  declare  @tempList TABLE (pos int,[Name] [nvarchar] (500));
+
+ WHILE CHARINDEX(',', @stringToSplit) > 0
+ BEGIN
+  SELECT @pos  = CHARINDEX(',', @stringToSplit)  
+  SELECT @name = SUBSTRING(@stringToSplit, 1, @pos-1)
+set @posx=@posx+1;
+
+  INSERT INTO @tempList 
+  SELECT @posx,@name
+
+  SELECT @stringToSplit = SUBSTRING(@stringToSplit, @pos+1, LEN(@stringToSplit)-@pos)
+ END
+set @posx=@posx+1;
+ INSERT INTO @tempList
+ SELECT @posx,@stringToSplit;
  
-  
-  
-      DECLARE @TEMP   VARCHAR(2),
-      @DELM   VARCHAR(1),
-              @CNTR   INT =1,
-              @RESULT VARCHAR(5000),
-              @INTR   INT =0,
-              @LEN    INT
-              
-              set @DELM= CAse when @delimiter IS not null then @delimiter else ',' end ;
+ --insert into @returnList
+select @RESULT= [Name] from  @tempList where pos = @POSITION;
 
-      SET @LEN =Len(@str)
-      WHILE @CNTR <= @LEN
-        BEGIN
-            SET @TEMP = Substring(@STR, @CNTR, 1)
-            IF @TEMP = @DELM
-              BEGIN
-                  SET @INTR += 1
-                  IF @INTR = @POSITION
-                    BEGIN
-                        SET @RESULT = Substring(@STR, @CNTR + 1, CASE
-                                                                   WHEN Charindex(@DELM, @STR, @CNTR + 1) - @CNTR < 1 THEN Len(@str)
-                                                                   ELSE Charindex(@DELM, @STR, @CNTR + 1) - @CNTR
-                                                                 END - 1)
 
-                        BREAK
-                    END
-              END
-            SET @CNTR+=1
-        END
-      RETURN @RESULT
-  END
+
+
+ RETURN @RESULT
+END
+
+ 
 GO
 
