@@ -8,7 +8,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-ALTER  FUNCTION [dbo].[fx_fiil_detay]
+create  FUNCTION [dbo].[fx_fiil_detay]
 (
   @gelen varchar(50) 
 )
