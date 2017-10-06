@@ -1,10 +1,5 @@
-USE [chatbot]
-GO
-
-/****** Object:  UserDefinedFunction [dbo].[fx_fiil_detay]    Script Date: 5.10.2017 13:54:45 ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -13,7 +8,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE  FUNCTION [dbo].[A0_fx_fiil_detay]
+ALTER  FUNCTION [dbo].[fx_fiil_detay]
 (
   @gelen varchar(50) 
 )
@@ -55,12 +50,12 @@ set @SertSessizIleBitiyorFlg= case when @SonHarf in ('f','s','t','k','ç','ş','
  when  'a' then 'ı' 
  when  'o' then 'u' 
  when  'ö' then 'ü' 
+ when  'i' then 'e' 
+ -- when  'u' then 'x' 
  else @SonSesli
   end
 
  insert into @Table_Var values (@gelen,@SonSesli,@SonHarf,@SessizIleBitiyorFlg,@SertSessizIleBitiyorFlg,@DuzGenisSesliHarf,@DarSesliHarf)	
 	RETURN  
 END
-
-GO
 
