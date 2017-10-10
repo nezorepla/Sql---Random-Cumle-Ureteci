@@ -13,13 +13,15 @@ declare @kural3 varchar(150)
  
 
 SELECT TOP 1 @fiil=fiil 
-FROM tbl_fiil   where  right(fiil,2)='in' 
+FROM tbl_fiil  
+-- where  left(right(fiil,2),1) in ('o','ü') 
  ORDER BY NEWID()  ;
   
 SELECT    TOP 1 @kip_eki=kip_eki_v2,@kip=kip
  FROM tbl_fiil_kip  
- -- where kip_eki_v2 like '%KaynastirmaHarfi%'
- -- where  kip ='geniş zaman'
+  where kip_eki_v2 like '%DarSesliHarf%'
+and  kip  ='gereklilik'
+-- where  kip  ='görülmüş geçmiş zaman'
   ORDER BY NEWID() ; 
 
  set @kural1 = case when @kip in('görülmüş geçmiş zaman','emir') then 'rivayet' else ' ' end;
@@ -49,46 +51,65 @@ declare @DarSesliHarf varchar(1);
 declare @SessizIleBitiyorFlg  bit=0;
 declare @SertSessizIleBitiyorFlg  bit=0;
 
-select @SonSesli=c1,@SonHarf=c2,@SessizIleBitiyorFlg=c3,@SertSessizIleBitiyorFlg=c4,@DuzGenisSesliHarf=c5,@DarSesliHarf=c6 from  [fx_fiil_detay](@fiil);
+select @SonSesli= SonSesli,@SonHarf= SonHarf,@SessizIleBitiyorFlg= SessizIleBitiyorFlg,
+@SertSessizIleBitiyorFlg= SertSessizIleBitiyorFlg,@DuzGenisSesliHarf= DuzGenisSesliHarf,@DarSesliHarf= DarSesliHarf
+from  [fx_fiil_detay](@fiil);
  
-
+--select * from  [fx_fiil_detay]('bilin')
  
 -- sp_fiil_ekler
  
 
 --düşme kuralı
- --<fiil:de - kip:DarSesliHarf,r("geniş zaman") ---> onlar de-r("geniş zaman") !
-
 select @kip_eki = case 
 when @SessizIleBitiyorFlg=0 and dbo.fx_fiil_Split(@kip_eki,1  ) in('DarSesliHarf','DuzGenisSesliHarf') then
 dbo.fx_fiil_ilkHarfDusmesi(@kip_eki)
  else @kip_eki end;
-
  
+ /*
+set @kip_eki = case when  left(right(@fiil,2),1) in ('o','ü') then replace(@kip_eki,'DarSesliHarf','DarGenisSesliHarf')
+else @kip_eki
+end
+*/
  
--- ben düş-ür("geniş zaman") ---> ben düş-er("geniş zaman") !
- 
-set @kip_eki = case when 
- right(@fiil,1)  in ('f','s','t','k','ç','ş','h','p')  and LEN(@fiil)<5 then REPLACE(@kip_eki,'DarSesliHarf','DuzGenisSesliHarf') 
- else @kip_eki end;
-
 
 set @kip_eki = replace(replace(@kip_eki,'DuzGenisSesliHarf',@DuzGenisSesliHarf),'DarSesliHarf',@DarSesliHarf);
-
-
-
-
 set @kip_eki = case when @SertSessizIleBitiyorFlg =1 then replace(@kip_eki,'Benzesme(d)','t') else replace(@kip_eki,'Benzesme(d)','d') end;
- 
 set @kip_eki = case when @SessizIleBitiyorFlg =0 and  dbo.fx_fiil_Split(@kip_eki,2)  in ('i','e','ı','i','a','u','ü','o','ö')  then replace(@kip_eki,'KaynastirmaHarfi(y)','y') else replace(@kip_eki,'KaynastirmaHarfi(y)','') end;
+set @kip_eki = case when @kip ='gereklilik'  
+and RIGHT(@kip_eki,1) = 'u' then replace(@kip_eki,'lu','lı')  else @kip_eki end
+print @kip_eki;
+
+set @kip_eki = replace(@kip_eki,',','');
  
- set @kip_eki = replace(@kip_eki,',','')
  
--- ilk sıçış : <fiil:dön - kip:m,e,l,ü("gereklilik") !
--- siz seyret-er("geniş zaman") !
--- sen bas-ır("geniş zaman") !
+ 
+ 
+ -- gereklilik
+
+--print '@DarSesliHarf;'+@DarSesliHarf;
+--print '@@DuzGenisSesliHarf;'+@DuzGenisSesliHarf;
+
+set @zaman_eki = replace(replace(@zaman_eki,'DuzGenisSesliHarf',@DuzGenisSesliHarf),'DarSesliHarf',@DarSesliHarf);
 
 
- print @sahis+' '+@fiil +'-'+@kip_eki +'("'+@kip  +'") !'
+set @sahis_eki = replace(replace(@sahis_eki,'DuzGenisSesliHarf',@DuzGenisSesliHarf),'DarSesliHarf',@DarSesliHarf);
+set @sahis_eki = replace(@sahis_eki,',','');
+
+ 
+
+
+ print @sahis+' '+@fiil +'|'+@kip_eki +'|'+@sahis_eki
 
  --sp_fiil_ekler
+
+/*
+biz unut|malu|KaynastirmaHarfi(y) uz
+sen çık|ır|sın
+ben büyü|miş|UnluTuremesim
+
+
+doğru örnekler
+siz gül|meli|siniz
+
+*/
