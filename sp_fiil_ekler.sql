@@ -13,14 +13,14 @@ declare @kural3 varchar(150)
  
 
 SELECT TOP 1 @fiil=fiil 
-FROM tbl_fiil  
+FROM tbl_fiil  -- where fiil ='kur'
 -- where  left(right(fiil,2),1) in ('o','ü') 
  ORDER BY NEWID()  ;
   
 SELECT    TOP 1 @kip_eki=kip_eki_v2,@kip=kip
  FROM tbl_fiil_kip  
-  where kip_eki_v2 like '%DarSesliHarf%'
-and  kip  ='gereklilik'
+ -- where kip_eki_v2 like '%DarSesliHarf%'
+where  kip  ='istek'
 -- where  kip  ='görülmüş geçmiş zaman'
   ORDER BY NEWID() ; 
 
@@ -76,8 +76,11 @@ end
 set @kip_eki = replace(replace(@kip_eki,'DuzGenisSesliHarf',@DuzGenisSesliHarf),'DarSesliHarf',@DarSesliHarf);
 set @kip_eki = case when @SertSessizIleBitiyorFlg =1 then replace(@kip_eki,'Benzesme(d)','t') else replace(@kip_eki,'Benzesme(d)','d') end;
 set @kip_eki = case when @SessizIleBitiyorFlg =0 and  dbo.fx_fiil_Split(@kip_eki,2)  in ('i','e','ı','i','a','u','ü','o','ö')  then replace(@kip_eki,'KaynastirmaHarfi(y)','y') else replace(@kip_eki,'KaynastirmaHarfi(y)','') end;
-set @kip_eki = case when @kip ='gereklilik'  
-and RIGHT(@kip_eki,1) = 'u' then replace(@kip_eki,'lu','lı')  else @kip_eki end
+
+ 
+set @kip_eki = case when @kip ='gereklilik' and RIGHT(@kip_eki,1) = 'u' then replace(@kip_eki,'l,u','l,ı')
+					when @kip ='gereklilik' and RIGHT(@kip_eki,1) = 'ü' then replace(@kip_eki,'l,ü','l,i')
+  else @kip_eki end
 print @kip_eki;
 
 set @kip_eki = replace(@kip_eki,',','');
