@@ -20,7 +20,7 @@ FROM tbl_fiil  -- where fiil ='kur'
 SELECT    TOP 1 @kip_eki=kip_eki_v2,@kip=kip
  FROM tbl_fiil_kip  
  -- where kip_eki_v2 like '%DarSesliHarf%'
-where  kip  ='istek'
+--where  kip  ='istek'
 -- where  kip  ='görülmüş geçmiş zaman'
   ORDER BY NEWID() ; 
 
@@ -88,6 +88,12 @@ set @kip_eki = replace(@kip_eki,',','');
  
  
  
+select @SonSesli= SonSesli,@SonHarf= SonHarf,@SessizIleBitiyorFlg= SessizIleBitiyorFlg,
+@SertSessizIleBitiyorFlg= SertSessizIleBitiyorFlg,@DuzGenisSesliHarf= DuzGenisSesliHarf,@DarSesliHarf= DarSesliHarf
+from  [fx_fiil_detay](@fiil +''+@kip_eki);
+ 
+ 
+ 
  -- gereklilik
 
 --print '@DarSesliHarf;'+@DarSesliHarf;
@@ -96,13 +102,25 @@ set @kip_eki = replace(@kip_eki,',','');
 set @zaman_eki = replace(replace(@zaman_eki,'DuzGenisSesliHarf',@DuzGenisSesliHarf),'DarSesliHarf',@DarSesliHarf);
 
 
+
+set @sahis_eki =  case when @kip= 'emir' then 's,DarSesliHarf,n,'+@sahis_eki else @sahis_eki end;
+
+set @sahis_eki = case 
+when  @SessizIleBitiyorFlg =1 then replace(@sahis_eki,'UnluTuremesi','DarSesliHarf')
+when  @SessizIleBitiyorFlg =0 then replace(@sahis_eki,'UnluTuremesi','DarSesliHarf')
+ else @sahis_eki end;
+
+
 set @sahis_eki = replace(replace(@sahis_eki,'DuzGenisSesliHarf',@DuzGenisSesliHarf),'DarSesliHarf',@DarSesliHarf);
+
+
+
 set @sahis_eki = replace(@sahis_eki,',','');
 
  
 
 
- print @sahis+' '+@fiil +'|'+@kip_eki +'|'+@sahis_eki
+ print @sahis+' '+@fiil +''+@kip_eki +'|'+@sahis_eki
 
  --sp_fiil_ekler
 
