@@ -327,27 +327,28 @@ insert into tbl_fiil values('hareket et','mek');
 insert into tbl_fiil values('isten','mek');
 insert into tbl_fiil values('kapan','mak');
 
+ 
 
-insert into tbl_fiil_kip   values(1,'dilek kipi','dilek şart','s*','s,DuzGenisSesliHarf');
-insert into tbl_fiil_kip   values(2,'dilek kipi','emir',' ','');
-insert into tbl_fiil_kip   values(3,'dilek kipi','gereklilik','m*l%','m,DuzGenisSesliHarf,l,DarSesliHarf');
-insert into tbl_fiil_kip   values(4,'dilek kipi','istek','*','DuzGenisSesliHarf');
-insert into tbl_fiil_kip   values(5,'haber kipi','gelecek zaman','*c*k','DuzGenisSesliHarf,c,DuzGenisSesliHarf,k');
-insert into tbl_fiil_kip   values(6,'haber kipi','geniş zaman','?r','DarSesliHarf,r');
-insert into tbl_fiil_kip   values(7,'haber kipi','görülmüş geçmiş zaman','d?','KaynastirmaHarfi(y),Benzesme(d),DarSesliHarf');
-insert into tbl_fiil_kip   values(8,'haber kipi','öğrenilmiş geçmiş zaman','m?ş','KaynastirmaHarfi(y),m,DarSesliHarf,ş');
-insert into tbl_fiil_kip   values(9,'haber kipi','şimdiki zaman','?yor','DarSesliHarf,y,o,r');
-insert into tbl_fiil_kip   values(10,'haber kipi','şimdiki zaman','m*kt*','m,DuzGenisSesliHarf,k,t,DuzGenisSesliHarf');
+insert into tbl_fiil_kip   values('dilek kipi','dilek şart','s*','s,DuzGenisSesliHarf');
+insert into tbl_fiil_kip   values('dilek kipi','emir',' ','');
+insert into tbl_fiil_kip   values('dilek kipi','gereklilik','m*l%','m,DuzGenisSesliHarf,l,DarSesliHarf');
+insert into tbl_fiil_kip   values('dilek kipi','istek','*','DuzGenisSesliHarf');
+insert into tbl_fiil_kip   values('haber kipi','gelecek zaman','*c*k','DuzGenisSesliHarf,c,DuzGenisSesliHarf,k');
+insert into tbl_fiil_kip   values('haber kipi','geniş zaman','?r','DarSesliHarf,r');
+insert into tbl_fiil_kip   values('haber kipi','görülmüş geçmiş zaman','d?','KaynastirmaHarfi(y),Benzesme(d),DarSesliHarf');
+insert into tbl_fiil_kip   values('haber kipi','öğrenilmiş geçmiş zaman','m?ş','KaynastirmaHarfi(y),m,DarSesliHarf,ş');
+insert into tbl_fiil_kip   values('haber kipi','şimdiki zaman','?yor','DarSesliHarf,y,o,r');
+insert into tbl_fiil_kip   values('haber kipi','şimdiki zaman','m*kt*','m,DuzGenisSesliHarf,k,t,DuzGenisSesliHarf');
 
 
-insert into tbl_fiil_zaman   values(1,'basit zaman','basit zaman','','');
-insert into tbl_fiil_zaman   values(2,'bileşik zaman','hikaye','d?','');
-insert into tbl_fiil_zaman   values(3,'bileşik zaman','rivayet','m?ş','');
-insert into tbl_fiil_zaman   values(4,'bileşik zaman','şart','s*','');
+insert into tbl_fiil_zaman   values('basit zaman','basit zaman','','');
+insert into tbl_fiil_zaman   values('bileşik zaman','hikaye','d?','');
+insert into tbl_fiil_zaman   values('bileşik zaman','rivayet','m?ş','');
+insert into tbl_fiil_zaman   values('bileşik zaman','şart','s*','');
 
-insert into tbl_fiil_sahis   values(1,'tekil','ben','?m','UnluTuremesi,m');
-insert into tbl_fiil_sahis   values(2,'tekil','sen','s?n','s,DarSesliHarf,n');
-insert into tbl_fiil_sahis   values(3,'tekil','o',' ',' ');
-insert into tbl_fiil_sahis   values(4,'çoğul','biz','?z','KaynastirmaHarfi, DarSesliHarf,z');
-insert into tbl_fiil_sahis   values(5,'çoğul','siz','s?n?z','s,DarSesliHarf,n,DarSesliHarf,z');
-insert into tbl_fiil_sahis   values(6,'çoğul','onlar','l*r','l,DuzGenisSesliHarf,r');
+insert into tbl_fiil_sahis   values('tekil','ben','?m','UnluTuremesi,m');
+insert into tbl_fiil_sahis   values('tekil','sen','s?n','s,DarSesliHarf,n');
+insert into tbl_fiil_sahis   values('tekil','o',' ',' ');
+insert into tbl_fiil_sahis   values('çoğul','biz','?z','KaynastirmaHarfi, DarSesliHarf,z');
+insert into tbl_fiil_sahis   values('çoğul','siz','s?n?z','s,DarSesliHarf,n,DarSesliHarf,z');
+insert into tbl_fiil_sahis   values('çoğul','onlar','l*r','l,DuzGenisSesliHarf,r');
