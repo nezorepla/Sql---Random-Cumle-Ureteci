@@ -1,3 +1,10 @@
+USE [chatbot]
+GO
+/****** Object:  UserDefinedFunction [dbo].[fx_fiil_detay]    Script Date: 04/15/2018 15:20:30 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 ALTER  FUNCTION [dbo].[fx_fiil_detay]
 (
   @gelen varchar(50) 
@@ -41,10 +48,10 @@ set @SertSessizIleBitiyorFlg= case when @SonHarf in ('f','s','t','k','ç','ş','
  set @DarSesliHarf= case
  when  @SonSesli  ='e' then 'i' 
  when  @SonSesli  ='a' then 'ı' 
- when  @SonSesli  ='o' then 'u' 
- when  @SonSesli  ='ö' then 'ü' 
-
+ when  @SonSesli  ='o' then  'u' 
+ when  @SonSesli  ='ö' then 'ü'   
 --when @SonSesli  = 'ü' then 'i' 
+--when @SonSesli  = 'u' then 'ı' 
  --when @SonSesli  = 'i' then '' 
  -- when  'u' then 'x' 
  else @SonSesli
@@ -53,4 +60,3 @@ set @SertSessizIleBitiyorFlg= case when @SonHarf in ('f','s','t','k','ç','ş','
  insert into @Table_Var values (@gelen,@SonSesli,@SonHarf,@SessizIleBitiyorFlg,@SertSessizIleBitiyorFlg,@DuzGenisSesliHarf,@DarSesliHarf)	
 	RETURN  
 END
-
